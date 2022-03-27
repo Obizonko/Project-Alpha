@@ -1,0 +1,67 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Images/Background/test_main_page_bg_full-hd.jpg" type="Texture" id=1]
+[ext_resource path="res://Objects/button-main_menu.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scripts/main_menu-Options.gd" type="Script" id=3]
+
+[sub_resource type="CanvasItemMaterial" id=1]
+
+[node name="main_menu" type="Node2D"]
+material = SubResource( 1 )
+
+[node name="backgound" type="Sprite" parent="."]
+texture = ExtResource( 1 )
+centered = false
+
+[node name="Options" type="Control" parent="."]
+margin_right = 1920.0
+margin_bottom = 1080.0
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="load_game" parent="Options" instance=ExtResource( 2 )]
+anchor_left = -0.156
+anchor_top = -0.317
+anchor_right = -0.156
+anchor_bottom = -0.317
+margin_left = 951.52
+margin_top = 542.36
+margin_right = 1566.52
+margin_bottom = 642.36
+rect_pivot_offset = Vector2( 257.5, 50 )
+text = "ЗАВАНТАЖИТИ"
+
+[node name="new_game" parent="Options" instance=ExtResource( 2 )]
+anchor_left = -0.156
+anchor_top = -0.317
+anchor_right = -0.156
+anchor_bottom = -0.317
+margin_left = 1094.52
+margin_top = 742.36
+margin_right = 1424.52
+margin_bottom = 842.36
+rect_pivot_offset = Vector2( 165, 50 )
+text = "НОВА ГРА"
+
+[node name="settings" parent="Options" instance=ExtResource( 2 )]
+margin_left = 677.0
+margin_top = 600.0
+margin_right = 1242.0
+margin_bottom = 700.0
+rect_pivot_offset = Vector2( 282.5, 50 )
+text = "НАЛАШТУВАННЯ"
+
+[node name="exit" parent="Options" instance=ExtResource( 2 )]
+margin_left = 855.0
+margin_top = 800.0
+margin_right = 1064.0
+margin_bottom = 900.0
+rect_pivot_offset = Vector2( 104.5, 50 )
+text = "ВИХІД"
+
+[connection signal="pressed" from="Options/load_game" to="Options" method="_on_load_game_pressed"]
+[connection signal="pressed" from="Options/new_game" to="Options" method="_on_new_game_pressed"]
+[connection signal="pressed" from="Options/settings" to="Options" method="_on_settings_pressed"]
+[connection signal="pressed" from="Options/exit" to="Options" method="_on_exit_pressed"]
