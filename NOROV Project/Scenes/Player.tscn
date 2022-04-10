@@ -1,11 +1,11 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://Images/Player/test_sprite_player.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/Player.gd" type="Script" id=2]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 0.3121
-height = 0.487149
+height = 0.321639
 
 [sub_resource type="Animation" id=2]
 resource_name = "IdleDown"
@@ -135,63 +135,72 @@ tracks/0/keys = {
 "values": [ 2 ]
 }
 
-[sub_resource type="AnimationNodeAnimation" id=10]
-animation = "IdleLeft"
+[sub_resource type="Animation" id=10]
+resource_name = "JerkRight"
+length = 0.2
 
 [sub_resource type="AnimationNodeAnimation" id=11]
-animation = "IdleDownLeft"
+animation = "IdleLeft"
 
 [sub_resource type="AnimationNodeAnimation" id=12]
-animation = "IdleDown"
+animation = "IdleDownLeft"
 
 [sub_resource type="AnimationNodeAnimation" id=13]
-animation = "IdleDownRight"
+animation = "IdleDown"
 
 [sub_resource type="AnimationNodeAnimation" id=14]
-animation = "IdleRight"
+animation = "IdleDownRight"
 
 [sub_resource type="AnimationNodeAnimation" id=15]
-animation = "IdleUpRight"
-
-[sub_resource type="AnimationNodeAnimation" id=16]
-animation = "IdleUp"
-
-[sub_resource type="AnimationNodeAnimation" id=17]
-animation = "IdleUpLeft"
-
-[sub_resource type="AnimationNodeAnimation" id=18]
 animation = "IdleRight"
 
-[sub_resource type="AnimationNodeBlendSpace2D" id=19]
-blend_point_0/node = SubResource( 10 )
+[sub_resource type="AnimationNodeAnimation" id=16]
+animation = "IdleUpRight"
+
+[sub_resource type="AnimationNodeAnimation" id=17]
+animation = "IdleUp"
+
+[sub_resource type="AnimationNodeAnimation" id=18]
+animation = "IdleUpLeft"
+
+[sub_resource type="AnimationNodeAnimation" id=19]
+animation = "IdleRight"
+
+[sub_resource type="AnimationNodeBlendSpace2D" id=20]
+blend_point_0/node = SubResource( 11 )
 blend_point_0/pos = Vector2( -1, 0 )
-blend_point_1/node = SubResource( 11 )
+blend_point_1/node = SubResource( 12 )
 blend_point_1/pos = Vector2( -1, 1 )
-blend_point_2/node = SubResource( 12 )
+blend_point_2/node = SubResource( 13 )
 blend_point_2/pos = Vector2( 0, 1 )
-blend_point_3/node = SubResource( 13 )
+blend_point_3/node = SubResource( 14 )
 blend_point_3/pos = Vector2( 1, 1 )
-blend_point_4/node = SubResource( 14 )
+blend_point_4/node = SubResource( 15 )
 blend_point_4/pos = Vector2( 1, 0 )
-blend_point_5/node = SubResource( 15 )
+blend_point_5/node = SubResource( 16 )
 blend_point_5/pos = Vector2( 1, -1 )
-blend_point_6/node = SubResource( 16 )
+blend_point_6/node = SubResource( 17 )
 blend_point_6/pos = Vector2( 0, -1 )
-blend_point_7/node = SubResource( 17 )
+blend_point_7/node = SubResource( 18 )
 blend_point_7/pos = Vector2( -1, -1 )
-blend_point_8/node = SubResource( 18 )
+blend_point_8/node = SubResource( 19 )
 blend_point_8/pos = Vector2( 0, 0 )
 blend_mode = 1
 
-[sub_resource type="AnimationNodeStateMachine" id=20]
-states/Idle/node = SubResource( 19 )
+[sub_resource type="AnimationNodeStateMachine" id=21]
+states/Idle/node = SubResource( 20 )
 states/Idle/position = Vector2( 238, 97 )
 start_node = "Idle"
 
-[sub_resource type="AnimationNodeStateMachinePlayback" id=21]
+[sub_resource type="AnimationNodeStateMachinePlayback" id=22]
 
 [node name="Player" type="KinematicBody2D"]
+scale = Vector2( 0.333, 0.333 )
 script = ExtResource( 2 )
+JERK_INTERVAL = {
+"after_prev": 0,
+"const_time": 1
+}
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 1 )
@@ -213,10 +222,11 @@ anims/IdleRight = SubResource( 6 )
 anims/IdleUp = SubResource( 7 )
 anims/IdleUpLeft = SubResource( 8 )
 anims/IdleUpRight = SubResource( 9 )
+anims/JerkRight = SubResource( 10 )
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
-tree_root = SubResource( 20 )
+tree_root = SubResource( 21 )
 anim_player = NodePath("../AnimationPlayer")
 active = true
-parameters/playback = SubResource( 21 )
+parameters/playback = SubResource( 22 )
 parameters/Idle/blend_position = Vector2( 0, 0 )

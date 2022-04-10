@@ -6,14 +6,15 @@
 radius = 3.64881
 height = 14.1887
 
-[node name="StaticBody2D" type="StaticBody2D"]
+[node name="Tree" type="StaticBody2D"]
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="Tree" type="Sprite" parent="."]
-scale = Vector2( 5, 5 )
 texture = ExtResource( 1 )
 offset = Vector2( 0, -35.3843 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 rotation = 1.57079
-scale = Vector2( 5, 5 )
 shape = SubResource( 1 )
