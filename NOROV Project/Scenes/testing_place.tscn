@@ -10,7 +10,8 @@
 [ext_resource path="res://Objects/Enemies/Bat.tscn" type="PackedScene" id=8]
 
 [sub_resource type="DynamicFont" id=1]
-size = 24
+size = 10
+use_filter = true
 font_data = ExtResource( 4 )
 
 [sub_resource type="DynamicFont" id=2]
@@ -24,7 +25,6 @@ font_data = ExtResource( 4 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2( 320, 180 )
-scale = Vector2( 0.25, 0.25 )
 current = true
 smoothing_enabled = true
 
@@ -51,19 +51,17 @@ tile_data = PoolIntArray( -720878, 1, 0, -720877, 1, 0, -655350, 0, 0, -655349, 
 
 [node name="Player" parent="World" instance=ExtResource( 1 )]
 position = Vector2( 320, 180 )
-scale = Vector2( 0.25, 0.25 )
 MAX_SPEED = 260
 JERK_INTERVAL = {
 "after_prev": 0,
 "const_time": 0.5
 }
-JERK_LENGTH = 96.0
 
 [node name="jerk_time" type="RichTextLabel" parent="World/Player"]
-margin_left = -48.78
-margin_top = -300.24
-margin_right = 51.22
-margin_bottom = -200.24
+margin_left = -16.0
+margin_top = -67.2088
+margin_right = 48.0
+margin_bottom = -39.2088
 custom_fonts/normal_font = SubResource( 1 )
 text = "0.2/0.5"
 __meta__ = {

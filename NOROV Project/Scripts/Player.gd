@@ -7,13 +7,14 @@ export var TO_STOP_TIME = 0.2
 var is_action_jerk = false
 export var JERK_INTERVAL = {"const_time": 2, "after_prev": 0}
 export var JERK_TIME : float = 0.1
-export var JERK_LENGTH : float = 200
+export var JERK_LENGTH : float = 64
 
 var velocity = Vector2.ZERO
 var input_vector = Vector2.ZERO
 
 onready var player_sprite = $Sprite
 onready var animationTree = $AnimationTree
+onready var animationState = animationTree.get("parameters/playback")
 onready var jerk_time = $jerk_time
 
 func _physics_process(delta):
@@ -39,7 +40,11 @@ func _physics_process(delta):
 		if input_vector != Vector2.ZERO:
 			velocity = velocity.move_toward(input_vector * MAX_SPEED, MAX_SPEED / TO_MAX_TIME * delta)
 			animationTree.set("parameters/Idle/blend_position", input_vector)
+			animationTree.set("parameters/Run/blend_position", input_vector)
+			animationState.travel("Run")
 		else:
+			animationState.travel("Idle")
+			animationTree.set("parameters/Run/blend_position", input_vector)
 			velocity = velocity.move_toward(Vector2.ZERO, MAX_SPEED / TO_STOP_TIME * delta)
 		
 	velocity = move_and_slide(velocity)
