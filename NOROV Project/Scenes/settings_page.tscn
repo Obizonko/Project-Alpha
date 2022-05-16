@@ -7,17 +7,10 @@
 script = ExtResource( 3 )
 
 [node name="back_to_main_menu" parent="." instance=ExtResource( 1 )]
-margin_left = 39.0002
-margin_top = 25.0
-margin_right = 376.24
-margin_bottom = 125.0
+margin_left = 25.0
+margin_top = 20.0
+margin_right = 101.0
+margin_bottom = 45.0
 text = "НАЗАД"
-
-[node name="RichTextLabel" type="RichTextLabel" parent="."]
-margin_right = 40.0
-margin_bottom = 40.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [connection signal="pressed" from="back_to_main_menu" to="." method="_on_back_to_main_menu_pressed"]
