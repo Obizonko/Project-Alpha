@@ -17,7 +17,7 @@ func set_text():
 	health_text.text = corrector + str(int(HEALTH)) + "/" + str(MAX_HEALTH)
 
 func update_health():
-	health_bar.rect_size.x = hb_size.x * (HEALTH / MAX_HEALTH)
+	health_bar.rect_size.x = hb_size.x * (HEALTH / max(MAX_HEALTH, 0.1))
 
 func _ready():
 	hb_size = health_bar.rect_size

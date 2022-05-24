@@ -1,11 +1,11 @@
 extends KinematicBody2D
 
-export var MAX_SPEED = 260
+export var MAX_SPEED = 200
 export var TO_MAX_TIME  = 0.2
-export var TO_STOP_TIME = 0.2
+export var TO_STOP_TIME = 0.1
 
 var is_action_jerk = false
-export var JERK_INTERVAL = {"const_time": 2, "after_prev": 0}
+export var JERK_INTERVAL = {"const_time": 0.5, "after_prev": 0}
 export var JERK_TIME : float = 0.1
 export var JERK_LENGTH : float = 64
 
@@ -17,13 +17,25 @@ enum {
 	ATTACK
 }
 
+onready var enemy_damage = {
+	"enemy_1_": get_node("/root/main_node/Additions/Enemy_1").attack_damage,
+	"enemy_2_": get_node("/root/main_node/Additions/Enemy_2").attack_damage,
+	"enemy_3_": get_node("/root/main_node/Additions/Enemy_3").attack_damage,
+	"enemy_4_": get_node("/root/main_node/Additions/Enemy_4").attack_damage
+}
+
 var state = MOVE
 var velocity = Vector2.ZERO
 var input_vector = Vector2.ZERO
-export var health = 80
+var anim_vector
+export var health = 100
 export var max_health = 100
-export var attack_damage = 1
+export var regeneration = 10
+export var attack_damage = 20
 var getting_damage = 0
+
+export var attack_interval = 0.3
+var prev_attack_time = 0
 
 onready var player_sprite = $Sprite
 onready var animationTree = $AnimationTree
@@ -32,9 +44,11 @@ onready var animationState = animationTree.get("parameters/playback")
 func _ready():
 	animationTree.active = true
 
+
 func _physics_process(delta):
 	health -= getting_damage * delta
 	JERK_INTERVAL["after_prev"] += delta
+	prev_attack_time += delta
 	
 	match state:
 		MOVE:
@@ -49,10 +63,15 @@ func _physics_process(delta):
 
 
 func move_state(delta):
-	input_vector.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
-	input_vector.y = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
-	var anim_vector = input_vector
-	input_vector = input_vector.normalized()
+	var pre_vector = Vector2.ZERO
+	pre_vector.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
+	pre_vector.y = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
+	if state != ATTACK or (pre_vector.x == 0 and pre_vector.y == 0):
+		input_vector.x = pre_vector.x
+		input_vector.y = pre_vector.y
+		anim_vector = input_vector
+		input_vector = input_vector.normalized()
+	
 	
 	# increase / decrease player speed and set animation
 	if input_vector != Vector2.ZERO:
@@ -74,7 +93,11 @@ func move_state(delta):
 			JERK_INTERVAL["after_prev"] = 0
 			
 	if Input.is_action_just_pressed("player_attack"):
-		state = ATTACK
+		if prev_attack_time > attack_interval and state != ATTACK:
+			prev_attack_time = 0
+			$Audio/Attack_emptines.stop()
+			$Audio/Attack_emptines.play()
+			state = ATTACK
 
 func jerk_state(delta):
 	# turn off jerk action and set velocity after it
@@ -112,3 +135,19 @@ func _on_HurtBox_body_entered(body):
 func _on_HurtBox_body_exited(body):
 	if body.name.find("Bat", 0) != -1:
 		getting_damage -= 5
+
+
+func _on_HurtBox_area_entered(area):
+	if area.name == "Enemy_1_SwordHitBox":
+		health -= enemy_damage["enemy_1_"]
+		max_health -= enemy_damage["enemy_1_"] / 2
+	if area.name == "Enemy_2_SwordHitBox":
+		health -= enemy_damage["enemy_2_"]
+		max_health -= enemy_damage["enemy_2_"] / 2
+	if area.name == "Enemy_3_SwordHitBox":
+		health -= enemy_damage["enemy_3_"]
+		max_health -= enemy_damage["enemy_3_"] / 2
+	if area.name == "Enemy_4_SwordHitBox":
+		health -= enemy_damage["enemy_4_"]
+		max_health -= enemy_damage["enemy_4_"] / 2
+	

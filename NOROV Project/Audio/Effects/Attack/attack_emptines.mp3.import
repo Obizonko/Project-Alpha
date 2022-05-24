@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/attack_emptines.mp3-39b8b957843748d09ac88cb064589a0d.mp3str"
+
+[deps]
+
+source_file="res://Audio/Effects/Attack/attack_emptines.mp3"
+dest_files=[ "res://.import/attack_emptines.mp3-39b8b957843748d09ac88cb064589a0d.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

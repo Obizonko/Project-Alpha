@@ -17,7 +17,7 @@ enum {
 
 var velocity = Vector2.ZERO
 var state = CHASE
-var health = 3
+var health = 30
 
 
 func _physics_process(delta):
